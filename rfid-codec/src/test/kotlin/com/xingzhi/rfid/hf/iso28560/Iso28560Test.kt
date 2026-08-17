@@ -23,6 +23,15 @@ class Iso28560Test {
     private val inventoryRawHex =
         "E0040150F2191FF8A101040014815F000203A80008830203D6593F00"
 
+    /**
+     * RobotDroid `PCRepositoryTest.readTag()` user-memory bytes. The primary
+     * identifier is complete, but legacy data after it is not a valid
+     * ISO 28560-2 object stream. The fast path must return OID 1 without
+     * parsing unrelated trailing bytes.
+     */
+    private val robotDroidLegacyTrailingDataHex =
+        "A10104000007940201A88302073B06AD6553C63F0000250110370231323334"
+
     @Test
     fun robotDroidParserVectorDecodesPrimaryItemIdentifier() {
         val userMemory = Hex.hexToBytes(robotDroidParserHex)
@@ -38,6 +47,13 @@ class Iso28560Test {
         assertEquals("YST", tag.ownerInstitution)
         assertEquals("12", tag.typeOfUsage)
         assertEquals("\u00ba", tag.onixMediaFormat)
+    }
+
+    @Test
+    fun fastPathIgnoresLegacyDataAfterPrimaryIdentifier() {
+        val userMemory = Hex.hexToBytes(robotDroidLegacyTrailingDataHex)
+        assertEquals("00000794", Iso28560.decodePrimaryItemIdentifier(userMemory))
+        assertFailsWith<Iso28560FormatException> { Iso28560.decode(userMemory) }
     }
 
     @Test

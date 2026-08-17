@@ -13,7 +13,7 @@ EPC schemes, and ISO 28560 encode.
 
 ## Dependency
 
-Coordinates: `com.xingzhi:rfid-codec:2.0.0`
+Coordinates: `com.xingzhi:rfid-codec:2.0.1`
 
 ```kotlin
 maven {
@@ -21,7 +21,7 @@ maven {
     credentials(PasswordCredentials::class)
 }
 
-implementation("com.xingzhi:rfid-codec:2.0.0")
+implementation("com.xingzhi:rfid-codec:2.0.1")
 ```
 
 GitHub Packages requires a GitHub username and a token with `read:packages`

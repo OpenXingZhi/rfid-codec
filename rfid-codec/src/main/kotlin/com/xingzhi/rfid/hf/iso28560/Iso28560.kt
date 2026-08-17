@@ -59,16 +59,15 @@ object Iso28560 {
 
     private data class DataElement(val oid: Int, val encoding: Int, val data: ByteArray)
 
-    private fun parseElements(userMemory: ByteArray): List<DataElement> {
+    private fun parseElements(userMemory: ByteArray): Sequence<DataElement> = sequence {
         val buffer = ByteBuffer.wrap(userMemory)
-        val elements = mutableListOf<DataElement>()
         while (buffer.hasRemaining()) {
             val flag = buffer.get().toInt() and 0xFF
             val isShifted = (flag and 0x80) != 0
             val encoding = (flag ushr 4) and 0x07
             var oid = flag and 0x0F
             if (oid == 0 && !isShifted) {
-                break
+                return@sequence
             }
             if (oid == 15) {
                 need(buffer, 1, "extended OID")
@@ -87,9 +86,8 @@ object Iso28560 {
             buffer.get(data)
             val skip = minOf(shiftLength, buffer.remaining())
             buffer.position(buffer.position() + skip)
-            elements.add(DataElement(oid, encoding, data))
+            yield(DataElement(oid, encoding, data))
         }
-        return elements
     }
 
     private fun need(buffer: ByteBuffer, n: Int, what: String) {
