@@ -6,9 +6,14 @@ import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 
 /**
- * CULTU UHF EPC barcode codec, from 高校图书馆UHF-RFID技术联盟标准 第四版
- * (China University Library UHF-RFID Technology Union Standard, 4th edition),
- * 应用指南附录A.
+ * CULTU UHF item-identifier payload codec, from 高校图书馆UHF-RFID技术联盟标准
+ * 第四版 (China University Library UHF-RFID Technology Union Standard, 4th
+ * edition), 应用指南附录A.
+ *
+ * This is the barcode payload only (8 bytes for coding type 00 / 96-bit full
+ * EPC, 12 bytes for type 01 / 128-bit full EPC). For the complete EPC layout
+ * including security, sorting, coding type, model version, and content index,
+ * use [CultuTagCodec].
  *
  * Used on UHF EPC Gen2 / ISO 18000-6C library tags. The algorithm is 1:1 with
  * `src/C/iRFID_96bit.c` (96-bit) and `src/C/iRFID_128bit.c` (128-bit)

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.xingzhi"
-version = providers.gradleProperty("version").orElse("2.0.1").get()
+version = providers.gradleProperty("version").orElse("2.1.0").get()
 
 allprojects {
     group = rootProject.group

@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 
-description = "RFID tag codec for XingZhi library applications (ISO 28560 HF decode + CULTU UHF EPC encode/decode)"
+description = "RFID tag codec for XingZhi library applications (ISO 28560 HF decode + CULTU UHF full EPC encode/decode)"
 
 kotlin {
     jvmToolchain(17)
